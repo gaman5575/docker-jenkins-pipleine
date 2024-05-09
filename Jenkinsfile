@@ -17,9 +17,9 @@ pipeline {
             steps {
                 script {
                     // Make sure Docker is installed and configured properly on Jenkins
-                    //def dockerImage = docker.build("docker.io/gaman5575/python-jenkins-app:${params.DOCKER_TAG}", "-f Dockerfile .")
-                     def dockerCommand = "/usr/bin/docker" // Update the path to the docker command
-                     def dockerImage = "${dockerCommand} build -t docker.io/gaman5575/python-jenkins-app:${params.DOCKER_TAG} -f Dockerfile ."
+                    def dockerImage = docker.build("docker.io/gaman5575/python-jenkins-app:${params.DOCKER_TAG}", "-f Dockerfile .")
+                     //def dockerCommand = "/usr/bin/docker" // Update the path to the docker command
+                     //def dockerImage = "${dockerCommand} build -t docker.io/gaman5575/python-jenkins-app:${params.DOCKER_TAG} -f Dockerfile ."
                     docker.withRegistry('', 'dockerhub-security') {
                         dockerImage.push("${params.DOCKER_TAG}")
                     }
