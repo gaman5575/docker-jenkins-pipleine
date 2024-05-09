@@ -9,7 +9,7 @@ pipeline {
             steps {
                 // Checkout the Git repository containing the Dockerfile
                 git branch: 'main',
-                  url: 'https://github.com/networknuts/jenkins-docker-project.git'
+                  url: 'https://github.com/gaman5575/docker-jenkins-pipleine.git'
             }
         }
 
@@ -17,8 +17,8 @@ pipeline {
             steps {
                 script {
                     // Make sure Docker is installed and configured properly on Jenkins
-                    def dockerImage = docker.build("docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}", "-f Dockerfile .")
-                    docker.withRegistry('', 'dockerhub-credentials') {
+                    def dockerImage = docker.build("docker.io/gaman5575/python-jenkins-app:${params.DOCKER_TAG}", "-f Dockerfile .")
+                    docker.withRegistry('', 'dockerhub-security') {
                         dockerImage.push("${params.DOCKER_TAG}")
                     }
                     // You can add any additional build arguments if needed
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Scan Docker Image for Vulnerabilities') {
             steps {
-                sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.51.1 image docker.io/aryansr/python-jenkins-app:${params.DOCKER_TAG}"
+                sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.51.1 image docker.io/gaman5575/python-jenkins-app:${params.DOCKER_TAG}"
             }
         }
     }
